@@ -73,8 +73,6 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
 
   return (
     <header className="glass-card mb-6" style={{ padding: '2.25rem' }}>
-      
-      {/* Top Welcome Title */}
       <div style={{ marginBottom: '1.5rem' }}>
         <h1 style={{ fontFamily: 'var(--font-body)', fontSize: '1.65rem', fontWeight: '800', lineHeight: '1.2', marginBottom: '0.35rem', color: 'var(--text-main)' }}>
           Hello, {userProfile.name}
@@ -84,15 +82,12 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
         </p>
       </div>
 
-      {/* 1. Top Stat Row: Interview Readiness & Current Streak */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', 
         gap: '1.25rem',
         marginBottom: '1.75rem'
       }}>
-
-        {/* Interview Readiness */}
         <div style={{ background: '#161b22', padding: '1.35rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
           <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600' }}>
             Interview Readiness
@@ -105,7 +100,6 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
           </div>
         </div>
 
-        {/* Current Streak */}
         <div 
           onClick={handleStreakClick}
           style={{ 
@@ -128,18 +122,14 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
             🔥 {userProfile.currentStreak} Days
           </div>
         </div>
-
       </div>
 
-      {/* 2. Today's Mission (Positioned Above Target Countdown & Timeline) */}
       <div style={{ 
         background: '#161b22', 
         padding: '1.75rem', 
         borderRadius: 'var(--radius-md)', 
         border: '1px solid #30363d' 
       }}>
-        
-        {/* Today's Mission Header Bar */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
@@ -161,7 +151,6 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
           </button>
         </div>
 
-        {/* Progress Bar */}
         <div style={{ marginBottom: '1.5rem', background: '#0d1117', padding: '1rem 1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#f0f6fc', fontWeight: '700', marginBottom: '0.5rem' }}>
             <span>Mission Progress ({completedCount} / {totalMissions} Completed)</span>
@@ -172,7 +161,6 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
           </div>
         </div>
 
-        {/* Add New Mission Form */}
         {showAddInput && (
           <form onSubmit={handleAddMission} style={{ background: '#0d1117', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #484f58', marginBottom: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
             <input 
@@ -201,7 +189,6 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
           </form>
         )}
 
-        {/* Mission Cards Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.1rem' }}>
           {missions.map(m => (
             <div 
@@ -256,13 +243,10 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
                   </span>
                 )}
               </div>
-
             </div>
           ))}
         </div>
-
       </div>
-
     </header>
   );
 }

@@ -22,12 +22,10 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
   });
   const [selectedCompanyId, setSelectedCompanyId] = useState('google');
   
-  // Modal for adding a custom company name
   const [showAddCompanyModal, setShowAddCompanyModal] = useState(false);
   const [newCompanyNameInput, setNewCompanyNameInput] = useState('');
   const [newCompanyRoleInput, setNewCompanyRoleInput] = useState('Software Engineer');
 
-  // Modal for "+ Share My Experience"
   const [showAddExperienceModal, setShowAddExperienceModal] = useState(false);
   const [candName, setCandName] = useState('');
   const [candRole, setCandRole] = useState('Software Engineer');
@@ -35,7 +33,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
   const [candAdvice, setCandAdvice] = useState('');
   const [candRoundNotes, setCandRoundNotes] = useState('');
 
-  // Customizable concepts and questions added by user
   const [customConcept, setCustomConcept] = useState('');
   const [customQuestion, setCustomQuestion] = useState('');
 
@@ -131,11 +128,8 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      
-      {/* Top Controls Bar */}
       <div className="glass-card" style={{ padding: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.25rem' }}>
-          
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <Building2 size={24} style={{ color: 'var(--color-primary)' }} />
@@ -147,8 +141,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            
-            {/* Company Select Dropdown + Type Any Custom Company */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <div style={{ position: 'relative', minWidth: '200px' }}>
                 <select
@@ -177,7 +169,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                 <ChevronDown size={18} style={{ position: 'absolute', right: '0.85rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#8b949e' }} />
               </div>
 
-              {/* Type / Add Custom Company Button */}
               <button 
                 className="btn btn-secondary"
                 onClick={() => setShowAddCompanyModal(true)}
@@ -188,7 +179,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
               </button>
             </div>
 
-            {/* Share My Experience Button */}
             <button 
               className="btn btn-secondary"
               onClick={() => setShowAddExperienceModal(true)}
@@ -197,16 +187,11 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
               <Plus size={18} style={{ color: '#c9d1d9' }} />
               <span>Share Experience</span>
             </button>
-
           </div>
-
         </div>
       </div>
 
-      {/* Selected Company Deep Dive Card */}
       <div className="glass-card" style={{ padding: '2.25rem' }}>
-        
-        {/* Selected Company Banner Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.25rem', borderBottom: '1px solid #30363d', paddingBottom: '1.5rem', marginBottom: '1.75rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <div style={{ background: '#161b22', padding: '0.85rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -230,10 +215,7 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
           </div>
         </div>
 
-        {/* 2 Top Intel Cards: Eligibility & OA Details */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-          
-          {/* Eligibility Criteria */}
           <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
             <h4 style={{ fontSize: '1rem', color: '#f0f6fc', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Award size={18} style={{ color: '#3b82f6' }} />
@@ -244,7 +226,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
             </p>
           </div>
 
-          {/* What Was Asked in OA Round */}
           <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
             <h4 style={{ fontSize: '1rem', color: '#f0f6fc', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <HelpCircle size={18} style={{ color: '#f59e0b' }} />
@@ -254,13 +235,9 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
               {selectedCompany.oaDetails || 'Online Assessment: 2 Algorithmic Coding Questions + Work Simulation.'}
             </p>
           </div>
-
         </div>
 
-        {/* Concepts to Focus & Frequently Asked Questions */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.5rem' }}>
-          
-          {/* Concepts to Focus More */}
           <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
             <h4 style={{ fontSize: '1rem', color: '#f0f6fc', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Target size={18} style={{ color: '#c9d1d9' }} />
@@ -305,7 +282,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
             </div>
           </div>
 
-          {/* Frequently Asked Questions */}
           <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
             <h4 style={{ fontSize: '1rem', color: '#f0f6fc', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <FileText size={18} style={{ color: '#c9d1d9' }} />
@@ -354,12 +330,9 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
               ))}
             </div>
           </div>
-
         </div>
-
       </div>
 
-      {/* Candidate Shared Experiences Log */}
       <div className="glass-card" style={{ padding: '2.25rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
@@ -383,7 +356,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
           </button>
         </div>
 
-        {/* List of Shared Candidate Experiences */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {(selectedCompany.experiences || []).map((exp) => (
             <div 
@@ -408,7 +380,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                 </div>
               </div>
 
-              {/* Round Log */}
               <div style={{ marginBottom: '1rem' }}>
                 <div style={{ fontSize: '0.8rem', color: '#8b949e', fontWeight: '700', marginBottom: '0.35rem' }}>Round Breakdown:</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
@@ -421,7 +392,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                 </div>
               </div>
 
-              {/* Candidate Advice */}
               <div style={{ background: '#0d1117', padding: '1rem', borderRadius: 'var(--radius-sm)', border: '1px solid #30363d' }}>
                 <span style={{ fontSize: '0.75rem', color: '#c9d1d9', fontWeight: '700', display: 'block', marginBottom: '0.2rem' }}>
                   💡 Candidate Key Advice:
@@ -430,14 +400,11 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                   "{exp.advice}"
                 </p>
               </div>
-
             </div>
           ))}
         </div>
-
       </div>
 
-      {/* Modal for Typing/Adding Any Custom Company */}
       {showAddCompanyModal && (
         <div style={{ 
           position: 'fixed', 
@@ -452,7 +419,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
           padding: '1rem' 
         }}>
           <div className="glass-card" style={{ maxWidth: '440px', width: '92%', padding: '2rem', border: '1px solid #484f58', margin: '0 auto', boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8)' }}>
-            
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <h3 style={{ fontSize: '1.25rem', color: '#f0f6fc', margin: 0 }}>
                 Type Any Target Company
@@ -500,12 +466,10 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                 </button>
               </div>
             </form>
-
           </div>
         </div>
       )}
 
-      {/* Modal for + Share My Experience */}
       {showAddExperienceModal && (
         <div style={{ 
           position: 'fixed', 
@@ -536,7 +500,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
               boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8)'
             }}
           >
-            
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <h3 style={{ fontSize: '1.25rem', color: '#f0f6fc', margin: 0 }}>
                 Share Your {selectedCompany.name} Interview Experience
@@ -547,7 +510,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
             </div>
 
             <form onSubmit={handleAddExperienceSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-              
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: '600' }}>
                   Your Name *
@@ -588,7 +550,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                 />
               </div>
 
-              {/* Edit/Add Custom Concepts to Focus More */}
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', color: '#c9d1d9', marginBottom: '0.35rem', fontWeight: '600' }}>
                   Add Concept to Focus More (Optional)
@@ -602,7 +563,6 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                 />
               </div>
 
-              {/* Edit/Add Custom Question Asked */}
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', color: '#c9d1d9', marginBottom: '0.35rem', fontWeight: '600' }}>
                   Add Frequently Asked Question (Optional)
@@ -638,13 +598,10 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
                   Cancel
                 </button>
               </div>
-
             </form>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }

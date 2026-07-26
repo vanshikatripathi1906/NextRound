@@ -45,8 +45,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
 
   return (
     <div className="glass-card mb-6" style={{ padding: '2rem' }}>
-      
-      {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
@@ -56,7 +54,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
         </div>
       </div>
 
-      {/* SVG Knowledge Graph Container */}
       <div style={{ 
         background: '#161b22', 
         borderRadius: 'var(--radius-md)', 
@@ -66,8 +63,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
         overflowX: 'auto'
       }}>
         <svg viewBox="0 0 1000 240" style={{ width: '100%', height: '240px', minWidth: '700px' }}>
-          
-          {/* Prerequisite Connecting Lines */}
           {nodes.map(node => {
             const reqVal = node.requiredQuestions || 100;
             const percent = Math.min(100, Math.round((node.questionsSolved / reqVal) * 100));
@@ -92,7 +87,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
             });
           })}
 
-          {/* Interactive Graph Nodes */}
           {nodes.map(node => {
             const reqVal = node.requiredQuestions || 100;
             const percent = Math.min(100, Math.round((node.questionsSolved / reqVal) * 100));
@@ -102,7 +96,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
 
             return (
               <g key={node.id} style={{ cursor: 'pointer' }} onClick={() => handleOpenEditor(node)}>
-                
                 <circle 
                   cx={cx} 
                   cy={cy} 
@@ -156,7 +149,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
                 >
                   ({node.questionsSolved}/{reqVal} solved)
                 </text>
-
               </g>
             );
           })}
@@ -167,7 +159,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
         </p>
       </div>
 
-      {/* Topics Interactive Practice & Error Logger Grid */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', 
@@ -198,7 +189,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
                   <span style={{ fontSize: '0.85rem', fontWeight: '800', color: color }}>{percent}%</span>
                 </div>
 
-                {/* Progress Bar */}
                 <div style={{ width: '100%', height: '8px', background: '#21262d', borderRadius: '4px', overflow: 'hidden', marginBottom: '0.75rem' }}>
                   <div style={{ width: `${percent}%`, height: '100%', background: color, transition: 'width 0.4s ease' }} />
                 </div>
@@ -208,7 +198,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
                   <span style={{ color: '#f0f6fc', fontWeight: '700' }}>Required: {reqVal}</span>
                 </div>
 
-                {/* Errors Breakdown Summary */}
                 <div style={{ marginTop: '0.65rem', paddingTop: '0.65rem', borderTop: '1px solid #21262d', fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                   <span>🐛 Syntax: {node.errors?.syntax || 0}</span>
                   <span>⚡ TLE: {node.errors?.tle || 0}</span>
@@ -228,7 +217,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
         })}
       </div>
 
-      {/* Node Interactive Practice & Errors Modal (Centered in Viewport!) */}
       {selectedNode && (
         <div style={{ 
           position: 'fixed', 
@@ -247,7 +235,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
           padding: '1rem'
         }}>
           <div className="glass-card" style={{ maxWidth: '480px', width: '94%', padding: '2rem', border: '1px solid #484f58', margin: '0 auto', boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
-            
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <h3 style={{ fontSize: '1.25rem', color: '#f0f6fc', margin: 0 }}>
                 Edit {selectedNode.name}
@@ -258,8 +245,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              
-              {/* Solved & Required Grid Inputs */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: '600' }}>
@@ -310,7 +295,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
                 Topic Mastery Score: <strong style={{ color: '#f0f6fc' }}>{Math.min(100, Math.round(((parseInt(editSolved) || 0) / (parseInt(editRequired) || 100)) * 100))}%</strong>
               </span>
 
-              {/* Log Error Types */}
               <div style={{ borderTop: '1px solid #30363d', paddingTop: '1rem' }}>
                 <h4 style={{ fontSize: '0.9rem', color: '#f0f6fc', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <AlertTriangle size={16} style={{ color: '#f59e0b' }} />
@@ -364,7 +348,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
                 </div>
               </div>
 
-              {/* Actions */}
               <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
                 <button className="btn btn-secondary" onClick={handleSaveNode} style={{ flex: 1, padding: '0.65rem', color: '#fff' }}>
                   <Check size={16} /> Save & Sync Analytics
@@ -373,13 +356,10 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
                   Cancel
                 </button>
               </div>
-
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }

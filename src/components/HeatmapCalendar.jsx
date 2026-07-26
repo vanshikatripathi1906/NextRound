@@ -56,8 +56,6 @@ export function HeatmapCalendar({ onUpdateTodayCount }) {
 
   return (
     <div className="glass-card mb-6" style={{ padding: '2rem' }}>
-      
-      {/* Header Bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
@@ -90,7 +88,6 @@ export function HeatmapCalendar({ onUpdateTodayCount }) {
         </div>
       </div>
 
-      {/* Real-Time 7-Day Activity Grid */}
       <div style={{ 
         background: '#161b22', 
         padding: '1.5rem', 
@@ -141,7 +138,6 @@ export function HeatmapCalendar({ onUpdateTodayCount }) {
           })}
         </div>
       </div>
-
     </div>
   );
 }

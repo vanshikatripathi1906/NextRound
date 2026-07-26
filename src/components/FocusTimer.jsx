@@ -85,8 +85,6 @@ export function FocusTimer({ onClose, onUpdateStudyTime }) {
           boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8)'
         }}
       >
-        
-        {/* Modal Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Timer size={24} style={{ color: '#c9d1d9' }} />
@@ -97,7 +95,6 @@ export function FocusTimer({ onClose, onUpdateStudyTime }) {
           </button>
         </div>
 
-        {/* Mode Selector */}
         <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
           <button
             className={`btn ${mode === 'study' ? 'btn-primary' : 'btn-secondary'}`}
@@ -123,7 +120,6 @@ export function FocusTimer({ onClose, onUpdateStudyTime }) {
           </button>
         </div>
 
-        {/* Timer Digital Display */}
         <div style={{ 
           fontSize: '4.5rem', 
           fontWeight: '800', 
@@ -134,14 +130,11 @@ export function FocusTimer({ onClose, onUpdateStudyTime }) {
           {formatTime(timeLeft)}
         </div>
 
-        {/* Self-Adjustment Sliders */}
         <div style={{ background: '#161b22', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', margin: '1.25rem 0', textTransform: 'none', textAlign: 'left' }}>
-          
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.85rem', color: '#c9d1d9', fontWeight: '700', marginBottom: '0.75rem' }}>
             <Sliders size={16} /> Adjust Duration:
           </div>
 
-          {/* Study Duration Slider */}
           <div style={{ marginBottom: '1rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '0.35rem', color: '#f0f6fc' }}>
               <span>Deep Study Duration:</span>
@@ -160,7 +153,6 @@ export function FocusTimer({ onClose, onUpdateStudyTime }) {
             />
           </div>
 
-          {/* Break Duration Slider */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '0.35rem', color: '#f0f6fc' }}>
               <span>Rest Break Duration:</span>
@@ -178,10 +170,8 @@ export function FocusTimer({ onClose, onUpdateStudyTime }) {
               }}
             />
           </div>
-
         </div>
 
-        {/* Timer Controls */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem' }}>
           <button 
             className="btn btn-secondary"
@@ -199,7 +189,6 @@ export function FocusTimer({ onClose, onUpdateStudyTime }) {
             <RotateCcw size={18} /> Reset
           </button>
         </div>
-
       </div>
     </div>
   );
