@@ -1,49 +1,71 @@
 import React, { useState } from 'react';
-import { GitCommit, Sparkles } from 'lucide-react';
+import { FileCode, ArrowRight, PlusCircle, MinusCircle, FileText } from 'lucide-react';
 
-export function ResumeEvolution() {
-  const [selectedIdx, setSelectedIdx] = useState(2);
+export function ResumeEvolution({ resumeList }) {
+  const [selectedIdx, setSelectedIdx] = useState(2); // Placed version
 
-  const versions = [
-    { label: 'v1.0 (Beginner)', date: 'Jan 2026', changes: ['Basic HTML/CSS projects', 'Solved 30 LeetCode Easy'] },
-    { label: 'v2.0 (Intermediate)', date: 'April 2026', changes: ['Built React Apps', '120 LC Solved', 'Added System Design'] },
-    { label: 'v3.0 (Interview Ready)', date: 'July 2026', changes: ['NextRound Project', '200+ LC Solved', '6-Axis Skill Radar'] }
-  ];
-
-  const current = versions[selectedIdx];
+  const selectedResume = resumeList[selectedIdx];
 
   return (
-    <div className="glass-card mb-6" style={{ padding: '2rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.5rem' }}>
-        <GitCommit size={24} style={{ color: 'var(--color-primary)' }} />
-        <h2 style={{ fontSize: '1.35rem' }}>Resume Evolution & Version History</h2>
-      </div>
-
-      <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        {versions.map((v, idx) => (
-          <button
-            key={idx}
-            className={`btn ${selectedIdx === idx ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setSelectedIdx(idx)}
-            style={{ fontSize: '0.85rem' }}
-          >
-            {v.label}
-          </button>
-        ))}
-      </div>
-
-      <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
-        <div style={{ fontSize: '0.9rem', color: '#c9d1d9', fontWeight: '700', marginBottom: '0.75rem' }}>
-          Resume Highlights ({current.date}):
+    <div className="glass-card">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <FileCode size={22} style={{ color: 'var(--color-primary)' }} />
+            <h2 style={{ fontSize: '1.25rem' }}>Resume Evolution Visual Diff</h2>
+          </div>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+            Track how your resume bullet points evolved from V1 to your final offer-landing version!
+          </p>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          {current.changes.map((c, i) => (
-            <div key={i} style={{ fontSize: '0.85rem', color: '#f0f6fc', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ color: '#10b981', fontWeight: '800' }}>+</span>
-              <span>{c}</span>
-            </div>
+        {/* Version Switchers */}
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          {resumeList.map((res, idx) => (
+            <button
+              key={res.version}
+              className={`btn ${selectedIdx === idx ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() => setSelectedIdx(idx)}
+              style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
+            >
+              {res.version}
+            </button>
           ))}
+        </div>
+      </div>
+
+      {/* Selected Diff Box */}
+      <div style={{ background: 'rgba(9, 13, 22, 0.7)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+        <div style={{ fontWeight: '700', fontSize: '1.1rem', marginBottom: '0.35rem', color: 'var(--color-primary)' }}>
+          {selectedResume.version}
+        </div>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
+          💡 <em>{selectedResume.highlight}</em>
+        </p>
+
+        {/* Git Style Visual Diff */}
+        <div style={{ background: '#0d1117', padding: '1rem', borderRadius: 'var(--radius-sm)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {selectedResume.diff.map((item, i) => {
+            const isAdded = item.type === 'added';
+            return (
+              <div 
+                key={i} 
+                style={{ 
+                  background: isAdded ? 'rgba(46, 160, 67, 0.15)' : 'rgba(248, 81, 73, 0.15)',
+                  color: isAdded ? '#7ee787' : '#ffa198',
+                  padding: '0.5rem 0.75rem',
+                  borderRadius: '4px',
+                  borderLeft: `4px solid ${isAdded ? '#2ea043' : '#f85149'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                {isAdded ? <PlusCircle size={14} /> : <MinusCircle size={14} />}
+                <span>{item.text}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

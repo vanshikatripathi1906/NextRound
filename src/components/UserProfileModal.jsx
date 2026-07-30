@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
-import { UserCheck, Phone, Check, X, Sparkles } from 'lucide-react';
+import { User, Phone, X, Save, CheckCircle2 } from 'lucide-react';
 
-export function UserProfileModal({ 
-  userProfile, 
-  onSaveProfile, 
-  onClose,
-  isFirstVisit = false 
-}) {
-  const [nameInput, setNameInput] = useState(userProfile.name || '');
-  const [phoneInput, setPhoneInput] = useState(userProfile.phone || '');
+export function UserProfileModal({ userProfile, onSaveProfile, onClose, isFirstVisit }) {
+  const [name, setName] = useState(userProfile.name || '');
+  const [phone, setPhone] = useState(userProfile.phone || '');
+  const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!nameInput.trim()) return;
+    if (!name.trim()) return;
 
-    if (onSaveProfile) {
-      onSaveProfile({
-        name: nameInput.trim(),
-        phone: phoneInput.trim()
-      });
-    }
+    onSaveProfile({
+      name: name.trim(),
+      phone: phone.trim()
+    });
 
-    if (onClose) {
+    setSavedSuccess(true);
+    setTimeout(() => {
       onClose();
-    }
+    }, 500);
   };
 
   return (
@@ -35,8 +30,8 @@ export function UserProfileModal({
       bottom: 0,
       width: '100vw', 
       height: '100vh', 
-      background: 'rgba(9, 13, 22, 0.92)', 
-      backdropFilter: 'blur(16px)', 
+      background: 'rgba(9, 13, 22, 0.9)', 
+      backdropFilter: 'blur(18px)', 
       zIndex: 2000,
       display: 'flex',
       alignItems: 'center',
@@ -46,20 +41,28 @@ export function UserProfileModal({
       <div 
         className="glass-card" 
         style={{ 
-          maxWidth: '440px', 
+          maxWidth: '460px', 
           width: '92%', 
-          padding: '2rem', 
+          padding: '2.25rem', 
           border: '1px solid #484f58', 
           boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8)',
-          margin: '0 auto'
+          margin: '0 auto', /* Ensures perfect horizontal centering */
+          transform: 'translateY(0)'
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <UserCheck size={24} style={{ color: '#c9d1d9' }} />
-            <h3 style={{ fontSize: '1.3rem', color: '#f0f6fc', margin: 0 }}>
-              {isFirstVisit ? "Welcome to NextRound!" : "Candidate Profile"}
+        
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+              <span className="badge badge-primary">Candidate Setup</span>
+            </div>
+            <h3 style={{ fontSize: '1.4rem', margin: 0, color: '#f0f6fc' }}>
+              {isFirstVisit ? 'Welcome to NextRound' : 'Update Profile'}
             </h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
+              Please enter your name and phone number to personalize your dashboard.
+            </p>
           </div>
 
           {!isFirstVisit && (
@@ -69,89 +72,83 @@ export function UserProfileModal({
           )}
         </div>
 
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '1.5rem', lineHeight: '1.45' }}>
-          {isFirstVisit 
-            ? "Please enter your name to personalize your technical interview dashboard and track your daily streak."
-            : "Update your candidate profile details below."}
-        </p>
-
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          
+          {/* Name Field */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', color: '#c9d1d9', marginBottom: '0.35rem', fontWeight: '600' }}>
-              Candidate Name *
+            <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: '600' }}>
+              Full Name *
             </label>
-            <input 
-              type="text" 
-              value={nameInput}
-              onChange={(e) => setNameInput(e.target.value)}
-              placeholder="e.g. Vanshika"
-              required
-              autoFocus
-              style={{ 
-                width: '100%', 
-                background: '#161b22', 
-                border: '1px solid #30363d', 
-                color: '#fff', 
-                padding: '0.65rem 0.85rem', 
-                borderRadius: 'var(--radius-sm)', 
-                fontSize: '0.95rem',
-                fontWeight: '600'
-              }}
-            />
+            <div style={{ position: 'relative' }}>
+              <User size={16} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: '#8b949e' }} />
+              <input 
+                type="text" 
+                value={name} 
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. Vanshika"
+                required
+                autoFocus
+                style={{ 
+                  width: '100%', 
+                  background: '#161b22', 
+                  border: '1px solid #30363d', 
+                  color: '#fff', 
+                  padding: '0.7rem 0.85rem 0.7rem 2.4rem', 
+                  borderRadius: 'var(--radius-sm)', 
+                  fontSize: '0.95rem',
+                  fontFamily: 'var(--font-body)'
+                }} 
+              />
+            </div>
           </div>
 
+          {/* Phone Field */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', color: '#c9d1d9', marginBottom: '0.35rem', fontWeight: '600' }}>
-              Phone Number (Optional)
+            <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: '600' }}>
+              Phone Number
             </label>
-            <input 
-              type="text" 
-              value={phoneInput}
-              onChange={(e) => setPhoneInput(e.target.value)}
-              placeholder="e.g. +91 9876543210"
-              style={{ 
-                width: '100%', 
-                background: '#161b22', 
-                border: '1px solid #30363d', 
-                color: '#fff', 
-                padding: '0.65rem 0.85rem', 
-                borderRadius: 'var(--radius-sm)', 
-                fontSize: '0.95rem'
-              }}
-            />
+            <div style={{ position: 'relative' }}>
+              <Phone size={16} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: '#8b949e' }} />
+              <input 
+                type="tel" 
+                value={phone} 
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="e.g. +91 9876543210"
+                style={{ 
+                  width: '100%', 
+                  background: '#161b22', 
+                  border: '1px solid #30363d', 
+                  color: '#fff', 
+                  padding: '0.7rem 0.85rem 0.7rem 2.4rem', 
+                  borderRadius: 'var(--radius-sm)', 
+                  fontSize: '0.95rem',
+                  fontFamily: 'var(--font-body)'
+                }} 
+              />
+            </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+          {/* Submit Button */}
+          <div style={{ marginTop: '0.5rem' }}>
             <button 
               type="submit" 
-              className="btn btn-secondary"
-              style={{ 
-                flex: 1, 
-                padding: '0.75rem', 
-                fontSize: '0.95rem', 
-                color: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.4rem'
-              }}
+              className="btn btn-emerald" 
+              style={{ width: '100%', padding: '0.75rem', fontSize: '0.95rem' }}
             >
-              <Check size={18} />
-              <span>{isFirstVisit ? "Start Preparation" : "Save Profile"}</span>
+              {savedSuccess ? (
+                <>
+                  <CheckCircle2 size={18} /> Profile Saved!
+                </>
+              ) : (
+                <>
+                  <Save size={18} /> Continue to Dashboard
+                </>
+              )}
             </button>
-
-            {!isFirstVisit && (
-              <button 
-                type="button" 
-                className="btn btn-secondary" 
-                onClick={onClose} 
-                style={{ padding: '0.75rem 1.25rem' }}
-              >
-                Cancel
-              </button>
-            )}
           </div>
+
         </form>
+
       </div>
     </div>
   );

@@ -1,27 +1,28 @@
 import React from 'react';
 import { KnowledgeGraph } from '../components/KnowledgeGraph';
 import { ReadinessRadar } from '../components/ReadinessRadar';
-import { ConfidenceDecay } from '../components/ConfidenceDecay';
 
 export function KnowledgePage({ 
   nodes, 
-  onUpdateNodeDetails,
-  skills,
+  onUpdateNodeDetails, 
+  skills, 
   onSkillsChange
 }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+      
+      {/* 1. Interactive Knowledge Graph with 100-Question Scaling & Error Logs */}
       <KnowledgeGraph 
         nodes={nodes} 
-        onUpdateNodeDetails={onUpdateNodeDetails} 
+        onUpdateNodeDetails={onUpdateNodeDetails}
       />
 
+      {/* 2. Readiness Radar */}
       <ReadinessRadar 
-        skills={skills}
+        initialSkills={skills} 
         onSkillsChange={onSkillsChange}
       />
 
-      <ConfidenceDecay nodes={nodes} />
     </div>
   );
 }
