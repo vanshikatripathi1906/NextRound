@@ -207,10 +207,10 @@ export function CompanyDNA({ companyDNAData = initialCompanyDNA }) {
             </div>
           </div>
 
-          <div style={{ background: '#161b22', padding: '0.85rem 1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', textAlign: 'right' }}>
+          <div style={{ background: '#161b22', padding: '0.65rem 1.1rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', textAlign: 'right' }}>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Interview Rounds</div>
-            <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#f0f6fc' }}>
-              {selectedCompany.roundsCount || 4} Rounds
+            <div style={{ fontSize: '1.15rem', fontWeight: '700', color: '#f0f6fc', marginTop: '0.15rem' }}>
+              {selectedCompany.roundsCount || 3} Rounds
             </div>
           </div>
         </div>

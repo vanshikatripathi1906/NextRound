@@ -167,6 +167,10 @@ export default function App() {
     setUserProfile(prev => ({ ...prev, todaysFocus: newFocus }));
   };
 
+  const handleUpdateMissions = (newMissions) => {
+    setUserProfile(prev => ({ ...prev, todaysMissions: newMissions }));
+  };
+
   const handleUpdateNodeDetails = (nodeId, newSolvedCount, newErrors, newRequiredCount) => {
     setNodes(prev => prev.map(n => {
       if (n.id === nodeId) {
@@ -213,6 +217,7 @@ export default function App() {
             skills={skills}
             onUpdateTodaysFocus={handleUpdateTodaysFocus}
             onCheckInStreak={handleCheckInStreak}
+            onUpdateMissions={handleUpdateMissions}
             heatmapData={initialHeatmapData}
             onOpenJourneyReplay={() => setShowJourneyReplay(true)}
             onOpenFocusTimer={() => setShowFocusTimer(true)}

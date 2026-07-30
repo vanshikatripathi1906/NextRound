@@ -18,8 +18,7 @@ export function HeatmapCalendar({ onUpdateTodayCount }) {
       const dateNum = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
       const savedCount = localStorage.getItem(`nextround_activity_${isoStr}`);
-      const fallbackCounts = [6, 8, 4, 10, 7, 9, 5];
-      const countVal = savedCount !== null ? parseInt(savedCount) : (fallbackCounts[6 - i] || 5);
+      const countVal = savedCount !== null ? parseInt(savedCount, 10) : 0;
 
       list.push({
         iso: isoStr,

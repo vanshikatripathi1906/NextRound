@@ -186,7 +186,17 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <h4 style={{ fontSize: '1rem', color: '#f0f6fc', margin: 0 }}>{node.name}</h4>
-                  <span style={{ fontSize: '0.85rem', fontWeight: '800', color: color }}>{percent}%</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '800', color: color }}>{percent}%</span>
+                    <button 
+                      className="btn btn-secondary btn-icon" 
+                      onClick={() => handleOpenEditor(node)}
+                      title="Update Solved, Required & Errors"
+                      style={{ padding: '0.35rem 0.5rem', borderRadius: 'var(--radius-sm)', background: '#21262d', border: '1px solid #484f58' }}
+                    >
+                      <Edit3 size={15} />
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ width: '100%', height: '8px', background: '#21262d', borderRadius: '4px', overflow: 'hidden', marginBottom: '0.75rem' }}>
@@ -204,14 +214,6 @@ export function KnowledgeGraph({ nodes, onUpdateNodeDetails }) {
                   <span>⚠️ Edge: {node.errors?.edgeCase || 0}</span>
                 </div>
               </div>
-
-              <button 
-                className="btn btn-secondary" 
-                onClick={() => handleOpenEditor(node)}
-                style={{ width: '100%', marginTop: '1rem', fontSize: '0.8rem', padding: '0.45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
-              >
-                <Edit3 size={14} /> Update Solved, Required & Errors
-              </button>
             </div>
           );
         })}

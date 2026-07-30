@@ -2,21 +2,33 @@ import React, { useState } from 'react';
 import { Target, Plus, CheckCircle2, Circle, Flame, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }) {
-  const [missions, setMissions] = useState(
-    userProfile.todaysMissions || [
+export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak, onUpdateMissions }) {
+  const [missions, setMissions] = useState(() => {
+    const saved = localStorage.getItem('nextround_missions');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return userProfile.todaysMissions || [
       { id: 1, text: 'Graph BFS Traversal', tag: 'Medium', completed: true },
       { id: 2, text: 'Graph DFS Cycle Detection', tag: 'Medium', completed: false },
       { id: 3, text: 'LRU Cache Design (O(1) DLL)', tag: 'Hard', completed: false }
-    ]
-  );
+    ];
+  });
 
   const [showAddInput, setShowAddInput] = useState(false);
   const [newMissionText, setNewMissionText] = useState('');
   const [newMissionTag, setNewMissionTag] = useState('Medium');
 
+  const saveMissions = (updated) => {
+    setMissions(updated);
+    localStorage.setItem('nextround_missions', JSON.stringify(updated));
+    if (onUpdateMissions) {
+      onUpdateMissions(updated);
+    }
+  };
+
   const handleToggleMission = (id) => {
-    setMissions(prev => prev.map(m => {
+    const updated = missions.map(m => {
       if (m.id === id) {
         const nextState = !m.completed;
         if (nextState) {
@@ -25,7 +37,8 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
         return { ...m, completed: nextState };
       }
       return m;
-    }));
+    });
+    saveMissions(updated);
   };
 
   const handleAddMission = (e) => {
@@ -39,8 +52,9 @@ export function Header({ userProfile, nodes = [], skills = [], onCheckInStreak }
       completed: false
     };
 
-    setMissions(prev => [...prev, item]);
+    const updated = [...missions, item];
     confetti({ particleCount: 40, spread: 50 });
+    saveMissions(updated);
     setNewMissionText('');
     setShowAddInput(false);
   };
