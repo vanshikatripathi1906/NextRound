@@ -1,170 +1,157 @@
-import React, { useState } from 'react';
-import { Clock, Calendar, Building2, Sparkles, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calendar, Target, Sparkles, Edit2, Check, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
-
-const MOTIVATIONAL_QUOTES = [
-  "The expert in anything was once a beginner. Keep grinding LeetCode!",
-  "Consistency is what transforms average effort into extraordinary results.",
-  "Your only limit is your willingness to try. Debug one problem at a time.",
-  "Great things in coding are never done by one quick attempt, but by daily discipline.",
-  "Believe you can handle the technical round and you're halfway there!"
-];
 
 export function InterviewCountdown() {
   const [targetCompany, setTargetCompany] = useState(() => {
-    return localStorage.getItem('nextround_targetCompany') || 'Google';
+    return localStorage.getItem('nextround_countdown_company') || 'Google';
   });
 
-  const [targetDateStr, setTargetDateStr] = useState(() => {
-    return localStorage.getItem('nextround_targetDate') || '2026-08-15';
+  const [targetDate, setTargetDate] = useState(() => {
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 24);
+    return localStorage.getItem('nextround_countdown_date') || defaultDate.toISOString().split('T')[0];
   });
 
-  const [quoteIndex, setQuoteIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [tempCompany, setTempCompany] = useState(targetCompany);
-  const [tempDate, setTempDate] = useState(targetDateStr);
+  const [tempDate, setTempDate] = useState(targetDate);
 
-  const calculateDaysRemaining = () => {
-    const target = new Date(targetDateStr).getTime();
-    const now = new Date().getTime();
-    const diff = target - now;
-    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-    return Math.max(0, days);
+  const calculateDaysRemaining = (dateStr) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const target = new Date(dateStr);
+    target.setHours(0, 0, 0, 0);
+    const diffTime = target - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays);
   };
 
-  const daysLeft = calculateDaysRemaining();
-  const totalPrepWindow = 30;
-  const prepProgress = Math.min(100, Math.max(10, Math.round(((totalPrepWindow - daysLeft) / totalPrepWindow) * 100)));
+  const daysRemaining = calculateDaysRemaining(targetDate);
+  const totalDays = 60;
+  const progressPercent = Math.min(100, Math.max(0, Math.round(((totalDays - daysRemaining) / totalDays) * 100)));
 
-  const handleSaveCountdown = (e) => {
-    e.preventDefault();
+  const quotes = [
+    "Consistency creates capability. Every solved problem brings you closer to your dream offer.",
+    "Focus on understanding patterns over memorizing code solutions.",
+    "Dry run your code out loud. Clear articulation is as important as syntax.",
+    "Small daily progress compounds into massive interview success.",
+    "Trust your preparation. You've solved hard problems before, and you will solve them again!"
+  ];
+
+  const getQuoteOfDay = () => {
+    const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+    return quotes[dayOfYear % quotes.length];
+  };
+
+  const handleSave = () => {
     setTargetCompany(tempCompany);
-    setTargetDateStr(tempDate);
-    localStorage.setItem('nextround_targetCompany', tempCompany);
-    localStorage.setItem('nextround_targetDate', tempDate);
+    setTargetDate(tempDate);
+    localStorage.setItem('nextround_countdown_company', tempCompany);
+    localStorage.setItem('nextround_countdown_date', tempDate);
     setIsEditing(false);
     confetti({ particleCount: 60, spread: 60 });
   };
 
-  const handleNextQuote = () => {
-    setQuoteIndex(prev => (prev + 1) % MOTIVATIONAL_QUOTES.length);
-  };
-
   return (
-    <div style={{ background: '#161b22', padding: '1.75rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-      
+    <div className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.25rem' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-              <Calendar size={22} style={{ color: '#c9d1d9' }} />
-              <h2 style={{ fontSize: '1.25rem', color: '#f0f6fc', margin: 0, fontWeight: '800' }}>Target Interview Countdown</h2>
-            </div>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.2rem' }}>
-              Track days remaining until your target interview.
-            </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Target size={22} style={{ color: '#c9d1d9' }} />
+            <h3 style={{ fontSize: '1.2rem', color: '#f0f6fc', margin: 0, fontWeight: '800' }}>
+              Target Interview Countdown
+            </h3>
           </div>
 
           <button 
-            className="btn btn-secondary"
-            onClick={() => setIsEditing(!isEditing)}
-            style={{ padding: '0.45rem 0.9rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+            className="btn btn-secondary btn-icon"
+            onClick={() => {
+              setTempCompany(targetCompany);
+              setTempDate(targetDate);
+              setIsEditing(!isEditing);
+            }}
+            title="Change Target Company or Date"
           >
-            <Building2 size={15} />
-            <span>{isEditing ? 'Cancel' : 'Set Target Date'}</span>
+            {isEditing ? <X size={16} /> : <Edit2 size={16} />}
           </button>
         </div>
 
-        {/* Edit Form */}
-        {isEditing && (
-          <form onSubmit={handleSaveCountdown} style={{ background: '#0d1117', padding: '1.25rem', borderRadius: 'var(--radius-sm)', border: '1px solid #484f58', marginBottom: '1.25rem', display: 'flex', flexWrap: 'wrap', gap: '0.85rem', alignItems: 'center' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', color: '#c9d1d9', marginBottom: '0.25rem', fontWeight: '600' }}>
-                Target Company
+        {isEditing ? (
+          <div style={{ background: '#0d1117', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #484f58', marginBottom: '1.25rem' }}>
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ display: 'block', fontSize: '0.8rem', color: '#c9d1d9', marginBottom: '0.35rem', fontWeight: '600' }}>
+                Target Company Name:
               </label>
               <input 
                 type="text" 
                 value={tempCompany} 
                 onChange={(e) => setTempCompany(e.target.value)}
-                placeholder="e.g. Google or Amazon"
-                required
-                style={{ background: '#161b22', border: '1px solid #30363d', color: '#fff', padding: '0.45rem 0.7rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem' }}
+                placeholder="e.g. Google, Amazon, Microsoft"
+                style={{ width: '100%', background: '#161b22', border: '1px solid #30363d', color: '#fff', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
               />
             </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', color: '#c9d1d9', marginBottom: '0.25rem', fontWeight: '600' }}>
-                Interview Date
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ display: 'block', fontSize: '0.8rem', color: '#c9d1d9', marginBottom: '0.35rem', fontWeight: '600' }}>
+                Target Interview Date:
               </label>
               <input 
                 type="date" 
                 value={tempDate} 
                 onChange={(e) => setTempDate(e.target.value)}
-                required
-                style={{ background: '#161b22', border: '1px solid #30363d', color: '#fff', padding: '0.45rem 0.7rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem' }}
+                style={{ width: '100%', background: '#161b22', border: '1px solid #30363d', color: '#fff', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
               />
             </div>
 
-            <button type="submit" className="btn btn-secondary" style={{ padding: '0.45rem 1.1rem', fontSize: '0.8rem', marginTop: '1.1rem', color: '#fff' }}>
-              Save Target
-            </button>
-          </form>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button className="btn btn-secondary" onClick={handleSave} style={{ flex: 1, padding: '0.55rem', color: '#fff' }}>
+                <Check size={16} /> Save Target
+              </button>
+              <button className="btn btn-secondary" onClick={() => setIsEditing(false)} style={{ padding: '0.55rem 1rem' }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div style={{ background: '#0d1117', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', textAlign: 'center', marginBottom: '1.25rem' }}>
+            <div style={{ fontSize: '0.9rem', color: '#c9d1d9', fontWeight: '600' }}>
+              Target: <strong style={{ color: '#f0f6fc', fontSize: '1.1rem' }}>{targetCompany}</strong>
+            </div>
+
+            <div style={{ fontSize: '3.8rem', fontWeight: '900', color: '#f0f6fc', margin: '0.5rem 0', fontFamily: 'var(--font-mono)' }}>
+              {daysRemaining} <span style={{ fontSize: '1.2rem', color: '#c9d1d9', fontWeight: '600' }}>Days Left</span>
+            </div>
+
+            <div style={{ fontSize: '0.8rem', color: '#8b949e', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem' }}>
+              <Calendar size={14} /> Scheduled for {new Date(targetDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </div>
+          </div>
         )}
 
-        {/* Days Remaining Big Stat (Silver/White Theme) */}
-        <div style={{ background: '#0d1117', padding: '1.25rem 1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-          <div>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              Target: <strong style={{ color: '#f0f6fc' }}>{targetCompany}</strong>
-            </span>
-            <div style={{ fontSize: '2.2rem', fontWeight: '800', color: '#f0f6fc', marginTop: '0.15rem' }}>
-              {daysLeft} Days
-            </div>
-            <span style={{ fontSize: '0.75rem', color: '#8b949e' }}>Interview Date: {targetDateStr}</span>
+        <div style={{ marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#c9d1d9', fontWeight: '600', marginBottom: '0.4rem' }}>
+            <span>Preparation Timeline Progress</span>
+            <span style={{ color: '#f0f6fc', fontWeight: '700' }}>{progressPercent}% Complete</span>
           </div>
 
-          <div style={{ background: '#161b22', padding: '0.85rem', borderRadius: '50%', border: '1px solid #484f58' }}>
-            <Clock size={24} style={{ color: '#c9d1d9' }} />
-          </div>
-        </div>
-
-        {/* Prep Timeline Progress Bar (Silver Theme) */}
-        <div style={{ background: '#0d1117', padding: '1.25rem 1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', marginBottom: '1.25rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#f0f6fc', fontWeight: '700', marginBottom: '0.45rem' }}>
-            <span>Preparation Timeline</span>
-            <span style={{ color: '#c9d1d9', fontWeight: '800' }}>{prepProgress}% Completed</span>
-          </div>
           <div style={{ width: '100%', height: '8px', background: '#21262d', borderRadius: '4px', overflow: 'hidden' }}>
-            <div style={{ width: `${prepProgress}%`, height: '100%', background: '#8b949e' }} />
+            <div style={{ width: `${progressPercent}%`, height: '100%', background: '#8b949e', transition: 'width 0.4s ease' }} />
           </div>
         </div>
       </div>
 
-      {/* Daily Motivational Quote Box (Slate Theme) */}
-      <div style={{ background: '#0d1117', padding: '1.1rem 1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.85rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flex: 1 }}>
-          <Sparkles size={18} style={{ color: '#c9d1d9', flexShrink: 0 }} />
-          <div>
-            <span style={{ fontSize: '0.75rem', color: '#8b949e', fontWeight: '700', display: 'block', marginBottom: '0.1rem' }}>
-              💡 Daily Motivational Quote
-            </span>
-            <p style={{ color: '#f0f6fc', fontSize: '0.875rem', fontStyle: 'italic', margin: 0, lineHeight: '1.4' }}>
-              "{MOTIVATIONAL_QUOTES[quoteIndex]}"
-            </p>
-          </div>
+      <div style={{ background: '#161b22', padding: '1rem 1.1rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+        <Sparkles size={18} style={{ color: '#c9d1d9', flexShrink: 0, marginTop: '0.15rem' }} />
+        <div>
+          <span style={{ fontSize: '0.75rem', color: '#c9d1d9', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '0.15rem' }}>
+            Daily Motivational Quote
+          </span>
+          <p style={{ color: '#f0f6fc', fontSize: '0.85rem', lineHeight: '1.45', margin: 0, italic: 'true' }}>
+            "{getQuoteOfDay()}"
+          </p>
         </div>
-
-        <button 
-          className="btn btn-secondary"
-          onClick={handleNextQuote}
-          title="Get another quote"
-          style={{ padding: '0.4rem 0.75rem', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
-        >
-          <RefreshCw size={12} />
-          <span>New Quote</span>
-        </button>
       </div>
-
     </div>
   );
 }

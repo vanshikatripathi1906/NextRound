@@ -3,145 +3,115 @@ import {
   LayoutDashboard, 
   Network, 
   Building2, 
-  BarChart3, 
-  Clock, 
-  User
+  BarChart2, 
+  Timer, 
+  UserCheck
 } from 'lucide-react';
 
 export function Navbar({ 
   activePage, 
   setActivePage, 
   onOpenFocusTimer, 
-  onOpenProfileModal, 
-  userName 
+  onOpenProfileModal,
+  userName = 'Vanshika'
 }) {
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard Home', icon: LayoutDashboard },
-    { id: 'knowledge', label: 'Knowledge & Radar', icon: Network },
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'knowledge', label: 'Knowledge Graph', icon: Network },
     { id: 'companies', label: 'Interview Experience', icon: Building2 },
-    { id: 'analytics', label: 'Analytics & Tools', icon: BarChart3 },
+    { id: 'analytics', label: 'Analytics & Tools', icon: BarChart2 }
   ];
 
   return (
-    <nav style={{ 
-      background: 'var(--bg-nav-top)', 
-      borderRadius: 'var(--radius-lg)', 
-      border: '1px solid #30363d',
-      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-      marginBottom: '2rem',
-      overflow: 'hidden'
-    }}>
-      
-      {/* Top Header Row */}
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justify: 'space-between', 
-        padding: '0.85rem 2rem',
-        borderBottom: '1px solid #30363d',
-        flexWrap: 'wrap',
-        gap: '1rem'
-      }}>
-        
-        {/* Brand Logo with Interview Icon */}
+    <nav className="glass-card mb-6" style={{ padding: '1rem 1.75rem', borderRadius: 'var(--radius-lg)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
         <div 
-          style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', cursor: 'pointer' }} 
           onClick={() => setActivePage('dashboard')}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', cursor: 'pointer' }}
         >
-          <div style={{ 
-            background: '#30363d', 
-            border: '1px solid #484f58',
-            padding: '0.35rem 0.55rem', 
-            borderRadius: 'var(--radius-sm)', 
-            display: 'flex',
-            alignItems: 'center',
-            justify: 'center'
-          }}>
-            <img 
-              src="/interview-icon.svg" 
-              alt="NextRound Interview Icon" 
-              style={{ width: '28px', height: '28px', filter: 'brightness(0) invert(0.95)' }} 
-            />
+          <div style={{ background: '#161b22', padding: '0.55rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#f0f6fc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="#8b949e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="#c9d1d9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
 
           <div>
-            <h2 style={{ fontSize: '1.35rem', lineHeight: '1', margin: 0, color: '#f0f6fc', fontWeight: '800' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: '800', fontFamily: 'var(--font-body)', letterSpacing: '-0.5px', color: '#f0f6fc', lineHeight: '1.1' }}>
               NextRound
-            </h2>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Interview Preparation Portal</span>
+            </div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600', letterSpacing: '0.5px' }}>
+              Technical Interview Preparation
+            </div>
           </div>
         </div>
 
-        {/* Action Tools Pinned to Right Side */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginLeft: 'auto', flexWrap: 'wrap' }}>
-          
-          {/* Focus Timer Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <button 
-            className="btn btn-secondary" 
+            className="btn btn-secondary btn-icon"
             onClick={onOpenFocusTimer}
-            title="Launch Focus Timer"
-            style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            title="Focus Timer"
+            style={{ borderRadius: '50%', padding: '0.65rem' }}
           >
-            <Clock size={16} style={{ color: '#c9d1d9' }} />
-            <span>Focus Timer</span>
+            <Timer size={18} style={{ color: '#c9d1d9' }} />
           </button>
 
-          {/* Candidate Profile Icon Button */}
-          <button 
-            className="btn btn-primary"
+          <button
+            className="btn btn-secondary"
             onClick={onOpenProfileModal}
-            title="Edit Candidate Profile Name & Phone"
-            style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem', 
+              padding: '0.5rem 0.95rem',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid #484f58',
+              background: '#161b22',
+              color: '#f0f6fc',
+              fontSize: '0.85rem',
+              fontWeight: '700'
+            }}
+            title="Update Profile Information"
           >
-            <User size={16} />
-            <span>{userName || 'Profile'}</span>
+            <UserCheck size={16} style={{ color: '#c9d1d9' }} />
+            <span>{userName}</span>
           </button>
-
         </div>
-
       </div>
 
-      {/* Sub-Nav Category Tab Row */}
       <div style={{ 
-        background: 'var(--bg-nav-sub)', 
         display: 'flex', 
-        alignItems: 'center', 
-        padding: '0.4rem 1.5rem',
+        gap: '0.5rem', 
+        marginTop: '1.25rem', 
+        paddingTop: '0.85rem', 
+        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         overflowX: 'auto'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          {navItems.map(item => {
-            const Icon = item.icon;
-            const isActive = activePage === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActivePage(item.id)}
-                style={{ 
-                  background: isActive ? '#30363d' : 'transparent',
-                  border: 'none',
-                  borderBottom: isActive ? '3px solid #8b949e' : '3px solid transparent',
-                  color: isActive ? '#f0f6fc' : 'var(--text-muted)',
-                  fontWeight: isActive ? '700' : '500',
-                  fontSize: '0.875rem',
-                  padding: '0.65rem 1.25rem',
-                  borderRadius: 'var(--radius-sm) var(--radius-sm) 0 0',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                <Icon size={16} />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
+        {navItems.map(item => {
+          const Icon = item.icon;
+          const isActive = activePage === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActivePage(item.id)}
+              className={`btn ${isActive ? 'btn-primary' : 'btn-secondary'}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '0.9rem',
+                padding: '0.55rem 1.1rem',
+                whiteSpace: 'nowrap',
+                fontWeight: isActive ? '700' : '500'
+              }}
+            >
+              <Icon size={16} />
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
       </div>
-
     </nav>
   );
 }
