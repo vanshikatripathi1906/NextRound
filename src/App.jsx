@@ -23,15 +23,39 @@ export default function App() {
 
   const [userProfile, setUserProfile] = useState(() => {
     const saved = localStorage.getItem('nextround_userProfile');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
-    }
-    return {
+    let profile = {
       ...initialUserProfile,
       name: 'Vanshika',
       phone: '+91 9876543210',
       isCheckedInToday: false
     };
+
+    if (saved) {
+      try { 
+        profile = { ...profile, ...JSON.parse(saved) }; 
+      } catch (e) {}
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const lastLogin = localStorage.getItem('nextround_lastLoginDate') || profile.lastLoginDate;
+
+    if (lastLogin) {
+      const lastDate = new Date(lastLogin);
+      const todayDate = new Date(todayStr);
+      const diffTime = todayDate.getTime() - lastDate.getTime();
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays > 1) {
+        profile.currentStreak = 0;
+        profile.isCheckedInToday = false;
+      } else if (diffDays === 1) {
+        profile.isCheckedInToday = false;
+      }
+    }
+
+    localStorage.setItem('nextround_lastLoginDate', todayStr);
+    profile.lastLoginDate = todayStr;
+    return profile;
   });
 
   const [nodes, setNodes] = useState(() => {
@@ -80,6 +104,14 @@ export default function App() {
     localStorage.setItem('nextround_companyDNA', JSON.stringify(companyDNAData));
   }, [companyDNAData]);
 
+  useEffect(() => {
+    const hasPrompted = localStorage.getItem('nextround_hasPromptedName');
+    if (!hasPrompted) {
+      setShowProfileModal(true);
+      setIsFirstVisit(true);
+    }
+  }, []);
+
   const handleManualSaveState = () => {
     localStorage.setItem('nextround_userProfile', JSON.stringify(userProfile));
     localStorage.setItem('nextround_nodes', JSON.stringify(nodes));
@@ -99,9 +131,11 @@ export default function App() {
         name: newInfo.name,
         phone: newInfo.phone,
         isCheckedInToday: true,
-        currentStreak: isAlreadyCheckedIn ? prev.currentStreak : prev.currentStreak + 1
+        currentStreak: isAlreadyCheckedIn ? prev.currentStreak : Math.max(1, prev.currentStreak + 1)
       };
     });
+
+    localStorage.setItem('nextround_hasPromptedName', 'true');
 
     confetti({
       particleCount: 80,
@@ -110,6 +144,7 @@ export default function App() {
     });
 
     setIsFirstVisit(false);
+    setShowProfileModal(false);
   };
 
   const handleCheckInStreak = () => {
