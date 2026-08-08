@@ -1,16 +1,58 @@
-# React + Vite
+# 🎯 NextRound: Technical Interview Preparation & Analytics Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+NextRound is an interactive, data-driven candidate dashboard designed to help software engineering candidates master technical interviews, track topic preparation, research target company recruitment intel, and maintain daily practice momentum.
 
-Currently, two official plugins are available:
+🚀 **Live Demo**: [https://next-round.vercel.app](https://next-round.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🌟 Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **📊 Dynamic Interview Readiness Engine**: Calculates live candidate readiness scores based on DSA topic mastery, 6-axis skill radar analytics, streak consistency, and daily quest missions.
+- **🌐 Interactive Knowledge Graph**: Features 6 DSA topic nodes with user-editable required target questions and error breakdown logging (Syntax, TLE, Edge Cases, MLE).
+- **🏢 Company Recruitment Intel Hub**: Research hiring criteria, OA formats, and frequently asked questions for tech companies (Google, Amazon, Adobe, Microsoft), plus add any custom target company.
+- **⏳ Target Interview Countdown**: Real-time days remaining countdown widget with daily motivational quotes and a preparation timeline progress bar.
+- **📅 Practice Activity Log**: 7-day practice tracker automatically synchronized with real-time system date (`new Date()`).
+- **🧠 Mental Peak Stress Reset**: Dual stress-confidence sliders alongside a 1-minute guided box breathing tool to eliminate pre-interview anxiety.
+- **💾 Automatic State Auto-Save**: Seamless `localStorage` state persistence for all candidate edits, daily missions, and practice notes.
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🛠️ Technology Stack
+
+- **Frontend**: React.js, JavaScript (ES6+)
+- **Build Tool**: Vite
+- **Styling**: Vanilla CSS3 (Slate Charcoal Palette, CSS Grid, Glassmorphism)
+- **Icons & Effects**: Lucide Icons, Canvas Confetti
+- **Storage & State**: Web Storage API (`localStorage`)
+
+---
+
+## 🚀 Getting Started Locally
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/vanshikatripathi1906/NextRound.git
+   cd NextRound
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
