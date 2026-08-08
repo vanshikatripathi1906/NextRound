@@ -1,58 +1,42 @@
-# 🎯 NextRound: Technical Interview Preparation & Analytics Portal
+# NextRound 🎯
 
-NextRound is an interactive, data-driven candidate dashboard designed to help software engineering candidates master technical interviews, track topic preparation, research target company recruitment intel, and maintain daily practice momentum.
+> Technical Interview Preparation & Analytics Portal built with React.js & Vite.
 
 🚀 **Live Demo**: [https://next-round.vercel.app](https://next-round.vercel.app)
 
 ---
 
-## 🌟 Key Features
+## 📌 Features
 
-- **📊 Dynamic Interview Readiness Engine**: Calculates live candidate readiness scores based on DSA topic mastery, 6-axis skill radar analytics, streak consistency, and daily quest missions.
-- **🌐 Interactive Knowledge Graph**: Features 6 DSA topic nodes with user-editable required target questions and error breakdown logging (Syntax, TLE, Edge Cases, MLE).
-- **🏢 Company Recruitment Intel Hub**: Research hiring criteria, OA formats, and frequently asked questions for tech companies (Google, Amazon, Adobe, Microsoft), plus add any custom target company.
-- **⏳ Target Interview Countdown**: Real-time days remaining countdown widget with daily motivational quotes and a preparation timeline progress bar.
-- **📅 Practice Activity Log**: 7-day practice tracker automatically synchronized with real-time system date (`new Date()`).
-- **🧠 Mental Peak Stress Reset**: Dual stress-confidence sliders alongside a 1-minute guided box breathing tool to eliminate pre-interview anxiety.
-- **💾 Automatic State Auto-Save**: Seamless `localStorage` state persistence for all candidate edits, daily missions, and practice notes.
+- **Interview Readiness Engine**: Dynamic readiness score based on topic mastery and streak consistency.
+- **Interactive Knowledge Graph**: 6 DSA topic nodes with customizable question targets and error logging.
+- **Company Recruitment Intel**: Explore hiring criteria, OA questions, and add custom target companies.
+- **Target Interview Countdown**: Days remaining countdown with daily motivational quotes.
+- **Practice Activity Log**: 7-day practice tracker synced with real-time system date.
+- **Mental Stress Reset**: Guided 1-minute box breathing tool to manage pre-interview anxiety.
+- **Auto-Save State**: All candidate edits automatically save in `localStorage`.
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Tech Stack
 
-- **Frontend**: React.js, JavaScript (ES6+)
-- **Build Tool**: Vite
-- **Styling**: Vanilla CSS3 (Slate Charcoal Palette, CSS Grid, Glassmorphism)
+- **Frontend**: React.js, Vite, JavaScript (ES6+)
+- **Styling**: Vanilla CSS3 (Slate Charcoal Theme, Glassmorphism)
 - **Icons & Effects**: Lucide Icons, Canvas Confetti
-- **Storage & State**: Web Storage API (`localStorage`)
+- **Storage**: Web Storage API (`localStorage`)
 
 ---
 
-## 🚀 Getting Started Locally
+## 💻 Local Setup
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/vanshikatripathi1906/NextRound.git
-   cd NextRound
-   ```
+```bash
+# Clone repository
+git clone https://github.com/vanshikatripathi1906/NextRound.git
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+# Install dependencies
+cd NextRound
+npm install
 
-3. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
-
-4. **Build for production**:
-   ```bash
-   npm run build
-   ```
-
----
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+# Run locally
+npm run dev
+```
