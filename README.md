@@ -1,42 +1,37 @@
-# NextRound 🎯
+# NextRound
 
-> Technical Interview Preparation & Analytics Portal built with React.js & Vite.
+NextRound is a web app built to help software engineering candidates prepare for technical interviews. It helps you track your topic practice, compute interview readiness, research company hiring requirements, and stay consistent with daily goals.
 
-🚀 **Live Demo**: [https://next-round.vercel.app](https://next-round.vercel.app)
+Live Demo: https://next-round.vercel.app
 
----
+## Features
 
-## 📌 Features
+- Interview Readiness: Calculates a readiness score based on your practice progress, skill ratings, and daily streak.
+- Knowledge Graph: Topic cards for Data Structures & Algorithms where you can log solved problems, target goals, and error types.
+- Company Intel: View eligibility criteria, assessment topics, and candidate experience logs for target companies, or add custom companies.
+- Interview Countdown: Set your target company and interview date to see days remaining along with daily motivation.
+- Practice Log: A 7-day activity tracker synced with the current date to log daily practice questions.
+- Mindfulness Reset: Stress and confidence sliders with a 1-minute box breathing timer.
+- Auto-Save: All changes are automatically saved to your browser storage.
 
-- **Interview Readiness Engine**: Dynamic readiness score based on topic mastery and streak consistency.
-- **Interactive Knowledge Graph**: 6 DSA topic nodes with customizable question targets and error logging.
-- **Company Recruitment Intel**: Explore hiring criteria, OA questions, and add custom target companies.
-- **Target Interview Countdown**: Days remaining countdown with daily motivational quotes.
-- **Practice Activity Log**: 7-day practice tracker synced with real-time system date.
-- **Mental Stress Reset**: Guided 1-minute box breathing tool to manage pre-interview anxiety.
-- **Auto-Save State**: All candidate edits automatically save in `localStorage`.
+## Tech Stack
 
----
+- React.js
+- Vite
+- JavaScript
+- Vanilla CSS
+- Web Storage API (localStorage)
 
-## 🛠️ Tech Stack
+## How to Run Locally
 
-- **Frontend**: React.js, Vite, JavaScript (ES6+)
-- **Styling**: Vanilla CSS3 (Slate Charcoal Theme, Glassmorphism)
-- **Icons & Effects**: Lucide Icons, Canvas Confetti
-- **Storage**: Web Storage API (`localStorage`)
+1. Clone the repository:
+   git clone https://github.com/vanshikatripathi1906/NextRound.git
 
----
+2. Go to the project directory:
+   cd NextRound
 
-## 💻 Local Setup
+3. Install dependencies:
+   npm install
 
-```bash
-# Clone repository
-git clone https://github.com/vanshikatripathi1906/NextRound.git
-
-# Install dependencies
-cd NextRound
-npm install
-
-# Run locally
-npm run dev
-```
+4. Start the local server:
+   npm run dev
