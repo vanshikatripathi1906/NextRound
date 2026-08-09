@@ -2,18 +2,29 @@ import React, { useState } from 'react';
 import { GitCommit, CheckCircle2, Circle } from 'lucide-react';
 
 export function TimelineTracker({ pipelineStages }) {
-  const [stages, setStages] = useState(pipelineStages);
+  const [stages, setStages] = useState(() => {
+    const saved = localStorage.getItem('nextround_timeline');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return pipelineStages || [
+      { id: 1, title: 'Online Assessment (OA)', status: 'completed' },
+      { id: 2, title: 'Technical Round 1 (DSA)', status: 'completed' },
+      { id: 3, title: 'Technical Round 2 (System Design)', status: 'pending' },
+      { id: 4, title: 'Managerial & HR Round', status: 'pending' }
+    ];
+  });
 
   const handleToggleStage = (stageId) => {
-    setStages(prevStages => 
-      prevStages.map(stage => {
-        if (stage.id === stageId) {
-          const nextStatus = stage.status === 'completed' ? 'pending' : 'completed';
-          return { ...stage, status: nextStatus };
-        }
-        return stage;
-      })
-    );
+    const updated = stages.map(stage => {
+      if (stage.id === stageId) {
+        const nextStatus = stage.status === 'completed' ? 'pending' : 'completed';
+        return { ...stage, status: nextStatus };
+      }
+      return stage;
+    });
+    setStages(updated);
+    localStorage.setItem('nextround_timeline', JSON.stringify(updated));
   };
 
   return (
@@ -46,7 +57,7 @@ export function TimelineTracker({ pipelineStages }) {
                   cursor: 'pointer',
                   padding: '0.85rem 1.1rem', 
                   borderRadius: 'var(--radius-md)', 
-                  background: isCompleted ? '#0d1117' : '#0d1117',
+                  background: '#0d1117',
                   border: `1px solid ${isCompleted ? '#484f58' : '#30363d'}`,
                   transition: 'all 0.25s ease',
                   display: 'flex',

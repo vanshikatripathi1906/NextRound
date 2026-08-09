@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
-import { History, Edit3, CheckCircle2, RotateCcw, Flame, Sparkles } from 'lucide-react';
+import { History, Edit3, CheckCircle2, RotateCcw } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
-  // Continuous 1 to 30 Day Slider
-  const [currentDay, setCurrentDay] = useState(30); // Default to Day 30
-  const [editableQuestions, setEditableQuestions] = useState(340);
+  const [currentDay, setCurrentDay] = useState(30);
+  const [editableQuestions, setEditableQuestions] = useState(() => {
+    const saved = localStorage.getItem('nextround_questions_solved');
+    return saved ? parseInt(saved) : 340;
+  });
 
-  // Concepts to Revisit state
-  const [revisitTopics, setRevisitTopics] = useState([
-    { id: 1, topic: 'Dynamic Programming (State Compression & 0/1 Knapsack)', lastRevised: '17 days ago', isRevised: false },
-    { id: 2, topic: 'Graph Dijkstra & Topological Sort (Kahn Algorithm)', lastRevised: '14 days ago', isRevised: false },
-    { id: 3, topic: 'Trie Prefix Trees & Search Auto-Completion', lastRevised: '10 days ago', isRevised: false }
-  ]);
+  const [revisitTopics, setRevisitTopics] = useState(() => {
+    const saved = localStorage.getItem('nextround_revisit_topics');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return [
+      { id: 1, topic: 'Dynamic Programming (State Compression & 0/1 Knapsack)', lastRevised: '17 days ago', isRevised: false },
+      { id: 2, topic: 'Graph Dijkstra & Topological Sort (Kahn Algorithm)', lastRevised: '14 days ago', isRevised: false },
+      { id: 3, topic: 'Trie Prefix Trees & Search Auto-Completion', lastRevised: '10 days ago', isRevised: false }
+    ];
+  });
 
   const handleSliderChange = (e) => {
     const day = parseInt(e.target.value) || 1;
     setCurrentDay(day);
     const calculatedQuestions = Math.round(day * 11 + 10);
     setEditableQuestions(calculatedQuestions);
+    localStorage.setItem('nextround_questions_solved', calculatedQuestions);
     if (onUpdateQuestionsSolved) {
       onUpdateQuestionsSolved(calculatedQuestions);
     }
@@ -27,6 +35,7 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
   const handleQuestionsInputChange = (val) => {
     const num = Math.max(0, parseInt(val) || 0);
     setEditableQuestions(num);
+    localStorage.setItem('nextround_questions_solved', num);
     const inferredDay = Math.min(30, Math.max(1, Math.round((num - 10) / 11)));
     setCurrentDay(inferredDay);
     if (onUpdateQuestionsSolved) {
@@ -35,20 +44,20 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
   };
 
   const handleToggleRevise = (id) => {
-    setRevisitTopics(prev => prev.map(t => {
+    const updated = revisitTopics.map(t => {
       if (t.id === id) {
         const nextState = !t.isRevised;
         if (nextState) confetti({ particleCount: 60, spread: 60 });
         return { ...t, isRevised: nextState, lastRevised: nextState ? 'Just now' : '14 days ago' };
       }
       return t;
-    }));
+    });
+    setRevisitTopics(updated);
+    localStorage.setItem('nextround_revisit_topics', JSON.stringify(updated));
   };
 
-  // Calculated readiness percentage based on solved questions
   const calculatedReadiness = Math.min(100, Math.round((editableQuestions / 400) * 100));
 
-  // LeetCode-style difficulty breakdown
   const easyCount = Math.round(editableQuestions * 0.38);
   const mediumCount = Math.round(editableQuestions * 0.48);
   const hardCount = Math.round(editableQuestions * 0.14);
@@ -56,7 +65,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
   return (
     <div className="glass-card mb-6" style={{ padding: '2.25rem' }}>
       
-      {/* Title Header */}
       <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
           <History size={24} style={{ color: 'var(--color-primary)' }} />
@@ -67,7 +75,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
         </p>
       </div>
 
-      {/* Smooth Continuous Day 1 to Day 30 Slider */}
       <div style={{ background: '#161b22', padding: '1.5rem 1.75rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d', marginBottom: '1.75rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.85rem', color: '#f0f6fc', fontSize: '0.9rem', fontWeight: '700' }}>
           <span>Day 1</span>
@@ -91,7 +98,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
         />
       </div>
 
-      {/* LeetCode-Style Questions Tracking & Readiness Stats */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
@@ -99,7 +105,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
         marginBottom: '2rem'
       }}>
 
-        {/* Snapshot Readiness Percentage */}
         <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
           <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
             Snapshot Readiness
@@ -112,7 +117,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
           </span>
         </div>
 
-        {/* EDITABLE Questions Solved */}
         <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
           <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span>Total Questions Solved (Editable)</span>
@@ -140,7 +144,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
           </div>
         </div>
 
-        {/* LeetCode Difficulty Breakdown (Easy / Medium / Hard) */}
         <div style={{ background: '#161b22', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
           <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.75rem', fontWeight: '600' }}>
             LeetCode Difficulty Breakdown
@@ -148,7 +151,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             
-            {/* Easy */}
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
               <span style={{ color: '#00b8a3', fontWeight: '700' }}>Easy: {easyCount}</span>
               <span style={{ color: '#8b949e' }}>38%</span>
@@ -157,7 +159,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
               <div style={{ width: '38%', height: '100%', background: '#00b8a3' }} />
             </div>
 
-            {/* Medium */}
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginTop: '0.2rem' }}>
               <span style={{ color: '#ffa116', fontWeight: '700' }}>Medium: {mediumCount}</span>
               <span style={{ color: '#8b949e' }}>48%</span>
@@ -166,7 +167,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
               <div style={{ width: '48%', height: '100%', background: '#ffa116' }} />
             </div>
 
-            {/* Hard */}
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginTop: '0.2rem' }}>
               <span style={{ color: '#ef4444', fontWeight: '700' }}>Hard: {hardCount}</span>
               <span style={{ color: '#8b949e' }}>14%</span>
@@ -180,7 +180,6 @@ export function PreparationTimeMachine({ onUpdateQuestionsSolved }) {
 
       </div>
 
-      {/* Feature: Concepts to Revisit Section */}
       <div style={{ background: '#161b22', padding: '1.75rem', borderRadius: 'var(--radius-md)', border: '1px solid #30363d' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
           <RotateCcw size={20} style={{ color: '#f59e0b' }} />
